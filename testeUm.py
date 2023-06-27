@@ -42,15 +42,18 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
         elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
             cordenadas.append(pos)
             nome = simpledialog.askstring("Space", "O nome dessa estrela será: ")
-            if nome != "":
+            if nome is None or nome.strip() == "":
+                nome = "desconhecida"
                 print(nome)
                 nomes.append(nome)
-            if nome == None:
-                nome = "descohecida"
+            if nome != "":
                 print(nome)
                 nomes.append(nome)
         elif event.type == pygame.KEYUP:
@@ -63,15 +66,19 @@ while running:
                 dadosSalvos = True
                 
     if dadosSalvos:
-        biblioDados = (nomes, cordenadas)
+        biblioDados = {'estrelas': nomes }
+        biblioCord = {'cordenadas': cordenadas}
         salvando.append(biblioDados)
+        salvando.append(biblioCord)
         for dados in salvando:
             pygame.font.init()
             tela.blit(caixaSalvos, (20, 70))
-            textoDados = fontepadrao.render(str(dados), 1, preto)
+            textoDados = fontepadrao.render(str(biblioDados), 1, preto)
+            textoCord = fontepadrao.render(str(biblioCord), 1, preto)
             tela.blit(textoDados, (50, 110))
+            tela.blit(textoCord, (50, 135))
             pygame.display.update()
-            time.sleep(3)
+            time.sleep(2)
         dadosSalvos = False
         
     #para desenhar as estrelinhas e escrever os nomes
