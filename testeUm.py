@@ -25,9 +25,10 @@ salvando = []
 
 
 # música, ícone, nome...
+dadosSalvos = False
 fundo = pygame.image.load("fundo.jpg")
 caixaTexto = pygame.image.load("f10.png")
-caixaSalvos = pygame.image.load("salvos.png")
+caixaSalvos = pygame.image.load("caixa salvos.png")
 pygame.mixer.music.load("musica.mp3")
 pygame.mixer.music.play(-1)
 icone = pygame.image.load("icone.png")
@@ -48,14 +49,31 @@ while running:
             if nome != "":
                 print(nome)
                 nomes.append(nome)
+            if nome == None:
+                nome = "descohecida"
+                print(nome)
+                nomes.append(nome)
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_F10:
                 cordenadas = []
                 nomes = []
                 linhas = []
                 pygame.display.update()
-                    
+            if event.key == pygame.K_F11:
+                dadosSalvos = True
                 
+    if dadosSalvos:
+        biblioDados = (nomes, cordenadas)
+        salvando.append(biblioDados)
+        for dados in salvando:
+            pygame.font.init()
+            tela.blit(caixaSalvos, (20, 70))
+            textoDados = fontepadrao.render(str(dados), 1, preto)
+            tela.blit(textoDados, (50, 110))
+            pygame.display.update()
+            time.sleep(3)
+        dadosSalvos = False
+        
     #para desenhar as estrelinhas e escrever os nomes
     for i in range(len(cordenadas)):
         pygame.draw.circle(tela, cor, cordenadas[i], raio)
