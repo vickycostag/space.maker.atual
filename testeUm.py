@@ -23,13 +23,24 @@ caixaTexto = pygame.image.load("f10.png")
 caixaSalvos = pygame.image.load("caixa salvos.png")
 pygame.mixer.music.load("musica.mp3")
 pygame.mixer.music.play(-1)
+bemVindoImg = pygame.image.load("bemvindo.png")
+bemVindo = True
+bemVindoTam = (10, 50)
 icone = pygame.image.load("icone.png")
 pygame.display.set_icon(icone)
 pygame.display.set_caption("this is SPACE MAKER!")
-
 while running:
     tela.blit(fundo, (0, 0))
-    tela.blit(caixaTexto, (tamanhoCaixa))
+    
+    if bemVindo:
+        tela.blit(bemVindoImg, bemVindoTam)
+        pygame.display.update()
+        time.sleep(4)
+        bemVindo = False
+        
+    if bemVindo == False:
+        tela.blit(caixaTexto, (tamanhoCaixa))
+            
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -89,5 +100,3 @@ while running:
     clock.tick(60)
 
 pygame.quit()
-
-
